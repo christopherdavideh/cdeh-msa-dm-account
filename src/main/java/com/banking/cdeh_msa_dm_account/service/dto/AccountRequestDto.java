@@ -19,15 +19,19 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AccountRequestDto {
 
-    @NotBlank(message = "Account number is required")
+    private UUID accountId;
+
     @Size(max = 10, message = "Account number must not exceed 10 characters")
-    private String accountNumber;
+    private String accountNumber; // Ahora es opcional, se genera automáticamente si no se proporciona
 
     @NotNull(message = "Account type is required")
     private AccountType accountType;
 
     @PositiveOrZero(message = "Initial balance must be zero or positive")
+    @Builder.Default
     private BigDecimal initialBalance = BigDecimal.valueOf(0.00);
+
+    private Boolean accountStatus;
 
     @NotNull(message = "Customer ID is required")
     private UUID customerId;

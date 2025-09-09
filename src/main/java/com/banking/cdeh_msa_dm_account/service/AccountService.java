@@ -18,8 +18,6 @@ public interface AccountService {
 
     Flux<AccountResponseDto> getAllAccounts();
 
-    Flux<AccountResponseDto> getAllAccountActive();
-
     Flux<AccountResponseDto> getAccountsByCustomerId(UUID customerId);
 
     Mono<AccountResponseDto> updateAccount(UUID accountId, AccountRequestDto accountRequestDto);

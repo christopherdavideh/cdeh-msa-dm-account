@@ -14,14 +14,17 @@ import java.util.UUID;
 @Repository
 public interface AccountRepository extends ReactiveCrudRepository<Account, UUID> {
 
+    @Query("SELECT * FROM account WHERE account_number = :accountNumber")
     Mono<Account> findByAccountNumber(String accountNumber);
 
+    @Query("SELECT * FROM account WHERE customer_id = :customerId")
     Flux<Account> findByCustomerId(UUID customerId);
 
+    @Query("SELECT * FROM account WHERE account_status = true")
     Flux<Account> findByAccountStatusTrue();
 
-    @Query("SELECT * FROM account WHERE account_status = true")
-    Flux<Account> getAllAccountActive();
+    @Query("SELECT COUNT(*) FROM account WHERE account_number LIKE CONCAT(:prefix, '%')")
+    Mono<Long> countByAccountNumberStartingWith(String prefix);
 
     @Modifying
     @Query("UPDATE account SET initial_balance = :initialBalance WHERE account_id = :accountId")
