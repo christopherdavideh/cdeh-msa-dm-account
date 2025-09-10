@@ -22,7 +22,7 @@ public interface AccountService {
 
     Mono<AccountResponseDto> updateAccount(UUID accountId, AccountRequestDto accountRequestDto);
 
-    Mono<AccountResponseDto> updateAccountBalance(UUID accountId, UpdateBalanceDto updateBalanceDto);
+    Mono<AccountResponseDto> updateAccountBalance(String accountNumber, UpdateBalanceDto updateBalanceDto);
 
     Mono<Void> deleteAccount(UUID accountId);
 }

@@ -58,10 +58,10 @@ public class AccountController {
                 .map(ResponseEntity::ok);
     }
 
-    @PatchMapping("/{accountId}/balance")
-    public Mono<ResponseEntity<AccountResponseDto>> updateAccountBalance(@PathVariable UUID accountId,
+    @PatchMapping("/{accountNumber}/balance")
+    public Mono<ResponseEntity<AccountResponseDto>> updateAccountBalance(@PathVariable String accountNumber,
                                                                          @Valid @RequestBody UpdateBalanceDto updateBalanceDto) {
-        return accountService.updateAccountBalance(accountId, updateBalanceDto)
+        return accountService.updateAccountBalance(accountNumber, updateBalanceDto)
                 .map(ResponseEntity::ok);
     }
 

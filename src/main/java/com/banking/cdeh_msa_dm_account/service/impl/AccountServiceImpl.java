@@ -154,21 +154,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<AccountResponseDto> updateAccountBalance(UUID accountId, UpdateBalanceDto updateBalanceDto) {
-        return accountRepository.findById(accountId)
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException(LogMessages.ACCOUNT_NOT_FOUND_BY_ID + accountId)))
-                .flatMap(account -> accountRepository.updateInitialBalance(accountId, updateBalanceDto.getInitialBalance())
+    public Mono<AccountResponseDto> updateAccountBalance(String accountNumber, UpdateBalanceDto updateBalanceDto) {
+        return accountRepository.findByAccountNumber(accountNumber)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException(LogMessages.ACCOUNT_NOT_FOUND_BY_ID + accountNumber)))
+                .flatMap(account -> accountRepository.updateInitialBalance(accountNumber, updateBalanceDto.getInitialBalance())
                         .then(Mono.just(account)))
                 .map(account -> {
                     account.setInitialBalance(updateBalanceDto.getInitialBalance());
                     return account;
                 })
                 .map(accountMapper::toAccountResponseDto)
-                .doFirst(() -> log.info(LogMessages.UPDATING_BALANCE_REQUEST, accountId))
-                .doOnSuccess(account -> log.info(LogMessages.ACCOUNT_BALANCE_UPDATED_SUCCESS, accountId))
-                .doOnError(error -> log.error(LogMessages.ERROR_UPDATING_BALANCE, accountId, error.getMessage()))
+                .doFirst(() -> log.info(LogMessages.UPDATING_BALANCE_REQUEST, accountNumber))
+                .doOnSuccess(account -> log.info(LogMessages.ACCOUNT_BALANCE_UPDATED_SUCCESS, accountNumber))
+                .doOnError(error -> log.error(LogMessages.ERROR_UPDATING_BALANCE, accountNumber, error.getMessage()))
                 .onErrorResume(throwable -> {
-                    if (accountId == null) {
+                    if (accountNumber == null) {
                         return Mono.error(new BadRequestException("Account ID cannot be null"));
                     }
                     if (updateBalanceDto.getInitialBalance() == null) {

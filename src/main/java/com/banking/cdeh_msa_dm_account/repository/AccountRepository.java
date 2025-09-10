@@ -27,8 +27,8 @@ public interface AccountRepository extends ReactiveCrudRepository<Account, UUID>
     Mono<Long> countByAccountNumberStartingWith(String prefix);
 
     @Modifying
-    @Query("UPDATE account SET initial_balance = :initialBalance WHERE account_id = :accountId")
-    Mono<Integer> updateInitialBalance(UUID accountId, BigDecimal initialBalance);
+    @Query("UPDATE account SET initial_balance = :initialBalance WHERE account_number = :accountNumber")
+    Mono<Integer> updateInitialBalance(String accountNumber, BigDecimal initialBalance);
 
     @Modifying
     @Query("UPDATE account SET account_status = false WHERE account_id = :accountId")
