@@ -1,5 +1,6 @@
 package com.banking.cdeh_msa_dm_account.service.dto;
 
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,6 @@ import java.math.BigDecimal;
 public class UpdateBalanceDto {
 
     @NotNull(message = "Initial balance is required")
-    @Positive(message = "Initial balance must be positive")
+    @PositiveOrZero(message = "Initial balance must be zero or positive")
     private BigDecimal initialBalance;
 }
